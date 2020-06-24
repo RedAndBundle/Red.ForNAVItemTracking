@@ -22,17 +22,19 @@
       "publisher": "Microsoft",
       "name": "Base Application",
       "version": "16.0.0.0"
-    }
+    },
+    { "id": "83326d6d-11f8-49fd-981a-6f266a7c8d81", "name": "Customizable Report Pack", "publisher": "ForNAV", "version": "5.0.0.0"}
   ],
   "screenshots": [],
   "platform": "16.0.0.0",
   "idRanges": [
     {
-      "from": 50100,
-      "to": 50149
+      "from": 56000,
+      "to": 56149
     }
   ],
   "contextSensitiveHelpUrl": "https://ForNAVItemTrackingOnPremise.com/help/",
   "showMyCode": true,
-  "runtime": "5.0"
+  "runtime": "5.0",
+  "target": "OnPrem"
 }
