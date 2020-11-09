@@ -1,4 +1,4 @@
-Report 56020 "ForNAV Purch Order Item Tr VAT"
+Report 56020 "Red Purch Order Item Tr VAT"
 {
     // Copyright (c) 2020 Red and Bundle - All Rights Reserved
     // The intellectual work and technical concepts contained in this file are proprietary to Red and Bundle.
@@ -172,16 +172,14 @@ Report 56020 "ForNAV Purch Order Item Tr VAT"
     var
         ForNAVSetup: Record "ForNAV Setup";
     begin
-        with ForNAVSetup do begin
-            Get;
-            case "VAT Report Type" of
-                "vat report type"::Always:
-                    exit(true);
-                "vat report type"::"Multiple Lines":
-                    exit(VATAmountLine.Count > 1);
-                "vat report type"::Never:
-                    exit(false);
-            end;
+        ForNAVSetup.Get;
+        case ForNAVSetup."VAT Report Type" of
+            ForNAVSetup."vat report type"::Always:
+                exit(true);
+            ForNAVSetup."vat report type"::"Multiple Lines":
+                exit(VATAmountLine.Count > 1);
+            ForNAVSetup."vat report type"::Never:
+                exit(false);
         end;
     end;
 
@@ -197,16 +195,14 @@ Report 56020 "ForNAV Purch Order Item Tr VAT"
         ForNAVSetup: Record "ForNAV Setup";
         OutStream: OutStream;
     begin
-        with ForNAVSetup do begin
-            Get;
-            if not PrintLogo(ForNAVSetup) then
-                exit;
-            CalcFields("Document Watermark");
-            if not "Document Watermark".Hasvalue then
-                exit;
+        ForNAVSetup.Get;
+        if not PrintLogo(ForNAVSetup) then
+            exit;
+        ForNAVSetup.CalcFields("Document Watermark");
+        if not ForNAVSetup."Document Watermark".Hasvalue then
+            exit;
 
-            ReportForNav.LoadWatermarkImage(ForNAVSetup.GetDocumentWatermark);
-        end;
+        ReportForNav.LoadWatermarkImage(ForNAVSetup.GetDocumentWatermark);
     end;
 
     procedure PrintLogo(ForNAVSetup: Record "ForNAV Setup"): Boolean

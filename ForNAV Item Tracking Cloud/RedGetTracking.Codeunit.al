@@ -133,17 +133,13 @@ codeunit 56000 "Red Get Tracking"
     end;
 
     local procedure InsertTrackingSpecFromItemLedgerEntry(var TrackingSpecification: Record "Tracking Specification"; ItemLedgerEntry: Record "Item Ledger Entry")
-    var
-        myInt: Integer;
     begin
-        with TrackingSpecification do begin
-            Init();
-            "Entry No." := TrackingSpecification."Entry No." + 1;
-            "Item No." := ItemLedgerEntry."Item No.";
-            "Serial No." := ItemLedgerEntry."Serial No.";
-            "Lot No." := ItemLedgerEntry."Lot No.";
-            "Quantity (Base)" := Abs(ItemLedgerEntry.Quantity);
-            Insert();
-        end;
+        TrackingSpecification.Init();
+        TrackingSpecification."Entry No." := TrackingSpecification."Entry No." + 1;
+        TrackingSpecification."Item No." := ItemLedgerEntry."Item No.";
+        TrackingSpecification."Serial No." := ItemLedgerEntry."Serial No.";
+        TrackingSpecification."Lot No." := ItemLedgerEntry."Lot No.";
+        TrackingSpecification."Quantity (Base)" := Abs(ItemLedgerEntry.Quantity);
+        TrackingSpecification.Insert();
     end;
 }
