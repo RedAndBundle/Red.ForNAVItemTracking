@@ -7,8 +7,8 @@
   "description": "Item Tracking for ForNAV reports",
   "privacyStatement": "https://redandbundle.com/privacy/",
   "EULA": "https://raw.githubusercontent.com/RedAndBundle/Red.ForNAVItemTracking/master/LICENSE?token=AE2PETD5B7PVXB64GQP3JDC7VERN6",
-  "help": "",
-  "url": "",
+  "help": "https://github.com/RedAndBundle/Red.ForNAVItemTracking/issues",
+  "url": "https://github.com/RedAndBundle/Red.ForNAVItemTracking",
   "logo": "_media/RedBundleLogo Extension 2020.png",
   "dependencies": [
     {
