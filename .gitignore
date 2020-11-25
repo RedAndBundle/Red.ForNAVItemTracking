@@ -4,6 +4,9 @@
 **/.vscode/
 **/.alpackages/
 *.app
+**/AppSourceCop.json
+**/BC.ruleset.json
+**/_BC.ruleset.json
 
 # dependencies
 **/node_modules/
