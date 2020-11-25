@@ -37,13 +37,7 @@ codeunit 56000 "Red Get Tracking"
         ReservationEntry.SetFilter("Item Tracking", '> %1', ReservationEntry."Item Tracking"::None);
         if ReservationEntry.FindSet() then
             repeat
-                TrackingSpecification.Init();
-                TrackingSpecification."Entry No." := TrackingSpecification."Entry No." + 1;
-                TrackingSpecification."Item No." := ReservationEntry."Item No.";
-                TrackingSpecification."Serial No." := ReservationEntry."Serial No.";
-                TrackingSpecification."Lot No." := ReservationEntry."Lot No.";
-                TrackingSpecification."Quantity (Base)" := Abs(ReservationEntry.Quantity);
-                TrackingSpecification.Insert();
+                InsertTrackingSpecFromReservationEntry(TrackingSpecification, ReservationEntry);
             until ReservationEntry.Next() = 0;
     end;
 
@@ -124,7 +118,7 @@ codeunit 56000 "Red Get Tracking"
                     Database::"Purch. Rcpt. Line":
                         ItemLedgerEntry.SetRange("Document Type", ItemLedgerEntry."Document Type"::"Purchase Receipt");
                 end;
-                ItemLedgerEntry.SetFilter("Item Tracking", '> %1', ItemLedgerEntry."Item Tracking"::None);
+                ItemLedgerEntry.SetFilter("Item Tracking", '>%1', ItemLedgerEntry."Item Tracking"::None);
                 if ItemLedgerEntry.FindSet() then
                     repeat
                         InsertTrackingSpecFromItemLedgerEntry(TrackingSpecification, ItemLedgerEntry);
@@ -132,18 +126,39 @@ codeunit 56000 "Red Get Tracking"
             until ShippingRef.Next() = 0;
     end;
 
-    local procedure InsertTrackingSpecFromItemLedgerEntry(var TrackingSpecification: Record "Tracking Specification"; ItemLedgerEntry: Record "Item Ledger Entry")
-    var
-        myInt: Integer;
+    local procedure InsertTrackingSpecFromReservationEntry(var TrackingSpecification: Record "Tracking Specification"; ReservationEntry: Record "Reservation Entry")
     begin
-        with TrackingSpecification do begin
-            Init();
-            "Entry No." := TrackingSpecification."Entry No." + 1;
-            "Item No." := ItemLedgerEntry."Item No.";
-            "Serial No." := ItemLedgerEntry."Serial No.";
-            "Lot No." := ItemLedgerEntry."Lot No.";
-            "Quantity (Base)" := Abs(ItemLedgerEntry.Quantity);
-            Insert();
-        end;
+        TrackingSpecification.Init();
+        TrackingSpecification."Entry No." += 1;
+        TrackingSpecification."Item No." := ReservationEntry."Item No.";
+        TrackingSpecification."Serial No." := ReservationEntry."Serial No.";
+        TrackingSpecification."Lot No." := ReservationEntry."Lot No.";
+        TrackingSpecification."Quantity (Base)" := Abs(ReservationEntry.Quantity);
+        TrackingSpecification."Expiration Date" := ReservationEntry."Expiration Date";
+        TrackingSpecification."Warranty Date" := ReservationEntry."Warranty Date";
+        TrackingSpecification."Location Code" := ReservationEntry."Location Code";
+        TrackingSpecification.Positive := ReservationEntry.Positive;
+        TrackingSpecification."Qty. per Unit of Measure" := ReservationEntry."Qty. per Unit of Measure";
+        TrackingSpecification."Variant Code" := ReservationEntry."Variant Code";
+        TrackingSpecification.Correction := ReservationEntry.Correction;
+        TrackingSpecification.Insert();
+    end;
+
+    local procedure InsertTrackingSpecFromItemLedgerEntry(var TrackingSpecification: Record "Tracking Specification"; ItemLedgerEntry: Record "Item Ledger Entry")
+    begin
+        TrackingSpecification.Init();
+        TrackingSpecification."Entry No." := TrackingSpecification."Entry No." + 1;
+        TrackingSpecification."Item No." := ItemLedgerEntry."Item No.";
+        TrackingSpecification."Serial No." := ItemLedgerEntry."Serial No.";
+        TrackingSpecification."Lot No." := ItemLedgerEntry."Lot No.";
+        TrackingSpecification."Quantity (Base)" := Abs(ItemLedgerEntry.Quantity);
+        TrackingSpecification."Expiration Date" := ItemLedgerEntry."Expiration Date";
+        TrackingSpecification."Warranty Date" := ItemLedgerEntry."Warranty Date";
+        TrackingSpecification."Location Code" := ItemLedgerEntry."Location Code";
+        TrackingSpecification.Positive := ItemLedgerEntry.Positive;
+        TrackingSpecification."Qty. per Unit of Measure" := ItemLedgerEntry."Qty. per Unit of Measure";
+        TrackingSpecification."Variant Code" := ItemLedgerEntry."Variant Code";
+        TrackingSpecification.Correction := ItemLedgerEntry.Correction;
+        TrackingSpecification.Insert();
     end;
 }
