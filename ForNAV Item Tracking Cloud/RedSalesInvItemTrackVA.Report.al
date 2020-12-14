@@ -65,8 +65,8 @@ Report 56001 "Red Sales Inv Item Track VA"
                 column(ReportForNav_VATAmountLine; ReportForNavWriteDataItem('VATAmountLine', VATAmountLine)) { }
                 trigger OnPreDataItem();
                 begin
-                    if not PrintVATAmountLines then
-                        CurrReport.Break;
+                    if not PrintVATAmountLines() then
+                        CurrReport.Break();
                     ReportForNav.OnPreDataItem('VATAmountLine', VATAmountLine);
                 end;
 
@@ -91,9 +91,9 @@ Report 56001 "Red Sales Inv Item Track VA"
             begin
 
                 ChangeLanguage("Language Code");
-                GetVatAmountLines;
-                GetVATClauses;
-                UpdateNoPrinted;
+                GetVatAmountLines();
+                GetVATClauses();
+                UpdateNoPrinted();
             end;
 
         }
@@ -114,13 +114,15 @@ Report 56001 "Red Sales Inv Item Track VA"
                     Caption = 'Options';
                     field(NoOfCopies; NoOfCopies)
                     {
-                        ApplicationArea = Basic;
+                        ApplicationArea = Basic, Suite;
                         Caption = 'No. of Copies';
+                        ToolTip = 'Specifies the number of copies.';
                     }
                     field(ForNavOpenDesigner; ReportForNavOpenDesigner)
                     {
-                        ApplicationArea = Basic;
+                        ApplicationArea = Basic, Suite;
                         Caption = 'Design';
+                        ToolTip = 'Opens the report in the ForNAV designer.';
                         Visible = ReportForNavAllowDesign;
                         trigger OnValidate()
                         begin
@@ -160,7 +162,7 @@ Report 56001 "Red Sales Inv Item Track VA"
         ;
 
         ReportForNav.SetCopies('Header', NoOfCopies);
-        LoadWatermark;
+        LoadWatermark();
         ;
         ReportsForNavPre;
 
@@ -174,7 +176,7 @@ Report 56001 "Red Sales Inv Item Track VA"
     var
         ForNAVSetup: Record "ForNAV Setup";
     begin
-        ForNAVSetup.Get;
+        ForNAVSetup.Get();
         if ForNAVSetup."Inherit Language Code" then
             CurrReport.Language(ReportForNav.GetLanguageID(LanguageCode));
     end;
@@ -183,7 +185,7 @@ Report 56001 "Red Sales Inv Item Track VA"
     var
         ForNAVGetVatAmountLines: Codeunit "ForNAV Get Vat Amount Lines";
     begin
-        VATAmountLine.DeleteAll;
+        VATAmountLine.DeleteAll();
         ForNAVGetVatAmountLines.GetVatAmountLines(Header, VATAmountLine);
     end;
 
@@ -191,7 +193,7 @@ Report 56001 "Red Sales Inv Item Track VA"
     var
         ForNAVGetVatClause: Codeunit "ForNAV Get Vat Clause";
     begin
-        VATClause.DeleteAll;
+        VATClause.DeleteAll();
         ForNAVGetVatClause.GetVATClauses(VATAmountLine, VATClause, Header."Language Code");
     end;
 
@@ -199,7 +201,7 @@ Report 56001 "Red Sales Inv Item Track VA"
     var
         ForNAVSetup: Record "ForNAV Setup";
     begin
-        ForNAVSetup.Get;
+        ForNAVSetup.Get();
         case ForNAVSetup."VAT Report Type" of
             ForNAVSetup."vat report type"::Always:
                 exit(true);
@@ -217,26 +219,18 @@ Report 56001 "Red Sales Inv Item Track VA"
         ForNAVUpdateNoPrinted.UpdateNoPrinted(Header, CurrReport.Preview);
     end;
 
-    local procedure GetNoOfCopies(): Integer
-    var
-        GetNoofCopies: Codeunit "ForNAV Get No. of Copies";
-    begin
-        exit(NoOfCopies + GetNoofCopies.GetNoOfCopies(Header));
-    end;
-
     local procedure LoadWatermark()
     var
         ForNAVSetup: Record "ForNAV Setup";
-        OutStream: OutStream;
     begin
-        ForNAVSetup.Get;
+        ForNAVSetup.Get();
         if not PrintLogo(ForNAVSetup) then
             exit;
         ForNAVSetup.CalcFields("Document Watermark");
         if not ForNAVSetup."Document Watermark".Hasvalue then
             exit;
 
-        ReportForNav.LoadWatermarkImage(ForNAVSetup.GetDocumentWatermark);
+        ReportForNav.LoadWatermarkImage(ForNAVSetup.GetDocumentWatermark());
     end;
 
     procedure PrintLogo(ForNAVSetup: Record "ForNAV Setup"): Boolean

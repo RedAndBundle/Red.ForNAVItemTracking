@@ -63,7 +63,7 @@ Report 56010 "Red Sales Ship Item Track"
             begin
 
                 ChangeLanguage("Language Code");
-                UpdateNoPrinted;
+                UpdateNoPrinted();
             end;
 
         }
@@ -86,11 +86,13 @@ Report 56010 "Red Sales Ship Item Track"
                     {
                         ApplicationArea = Basic, Suite;
                         Caption = 'No. of Copies';
+                        ToolTip = 'Specifies the number of copies.';
                     }
                     field(ForNavOpenDesigner; ReportForNavOpenDesigner)
                     {
-                        ApplicationArea = Basic;
+                        ApplicationArea = Basic, Suite;
                         Caption = 'Design';
+                        ToolTip = 'Opens the report in the ForNAV designer.';
                         Visible = ReportForNavAllowDesign;
                         trigger OnValidate()
                         begin
@@ -130,7 +132,7 @@ Report 56010 "Red Sales Ship Item Track"
         ;
 
         ReportForNav.SetCopies('Header', NoOfCopies);
-        LoadWatermark;
+        LoadWatermark();
         ;
         ReportsForNavPre;
 
@@ -144,7 +146,7 @@ Report 56010 "Red Sales Ship Item Track"
     var
         ForNAVSetup: Record "ForNAV Setup";
     begin
-        ForNAVSetup.Get;
+        ForNAVSetup.Get();
         if ForNAVSetup."Inherit Language Code" then
             CurrReport.Language(ReportForNav.GetLanguageID(LanguageCode));
     end;
@@ -159,16 +161,15 @@ Report 56010 "Red Sales Ship Item Track"
     local procedure LoadWatermark()
     var
         ForNAVSetup: Record "ForNAV Setup";
-        OutStream: OutStream;
     begin
-        ForNAVSetup.Get;
+        ForNAVSetup.Get();
         if not PrintLogo(ForNAVSetup) then
             exit;
         ForNAVSetup.CalcFields("Document Watermark");
         if not ForNAVSetup."Document Watermark".Hasvalue then
             exit;
 
-        ReportForNav.LoadWatermarkImage(ForNAVSetup.GetDocumentWatermark);
+        ReportForNav.LoadWatermarkImage(ForNAVSetup.GetDocumentWatermark());
     end;
 
     procedure PrintLogo(ForNAVSetup: Record "ForNAV Setup"): Boolean

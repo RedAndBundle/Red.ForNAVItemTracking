@@ -26,5 +26,7 @@
   ],
   "contextSensitiveHelpUrl": "https://ForNAVItemTrackingCloud.com/help/",
   "showMyCode": true,
-  "runtime": "6.0"
+  "runtime": "6.0",
+  "features": ["TranslationFile"],
+  "applicationInsightsKey": "06ce782c-6233-4a9e-8e2f-f7a0fef10cbb"
 }
