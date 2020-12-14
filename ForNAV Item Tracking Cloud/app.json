@@ -2,17 +2,18 @@
   "id": "06ce782c-6233-4a9e-8e2f-f7a0fef10cbb",
   "name": "ForNAV Item Tracking Cloud",
   "publisher": "Red and Bundle",
-  "version": "17.0.0.1",
-  "brief": "ForNAV Item Tracking",
-  "description": "Item Tracking for ForNAV reports",
+  "version": "17.0.1.0",
+  "brief": "ForNAV Item Tracking Aptean",
+  "description": "Item Tracking for ForNAV reports with Aptean advanced lot nos",
   "privacyStatement": "https://redandbundle.com/privacy/",
   "EULA": "https://raw.githubusercontent.com/RedAndBundle/Red.ForNAVItemTracking/master/LICENSE?token=AE2PETD5B7PVXB64GQP3JDC7VERN6",
   "help": "https://github.com/RedAndBundle/Red.ForNAVItemTracking/issues",
   "url": "https://github.com/RedAndBundle/Red.ForNAVItemTracking",
   "logo": "_media/RedBundleLogo Extension 2020.png",
   "dependencies": [
-    { "id": "83326d6d-11f8-49fd-981a-6f266a7c8d81", "name": "Customizable Report Pack", "publisher": "ForNAV", "version": "5.0.0.0"} ,
-    { "id": "6f0293d3-86fc-4ff8-9632-54a580be6546", "name": "ForNAV Core", "publisher": "ForNAV", "version": "5.0.0.0" }
+    { "id": "83326d6d-11f8-49fd-981a-6f266a7c8d81", "name": "Customizable Report Pack", "publisher": "ForNAV", "version": "5.0.0.0"},
+    { "id": "6f0293d3-86fc-4ff8-9632-54a580be6546", "name": "ForNAV Core", "publisher": "ForNAV", "version": "5.0.0.0" },
+    { "id": "de6acd9d-87f7-4096-b6b8-4fb14900cbb5", "name": "Aptean Advanced Attributes for Food and Beverage", "publisher": "Aptean", "version": "1.0.0.0" }
   ],
   "screenshots": [],
   "platform": "17.0.0.0",
