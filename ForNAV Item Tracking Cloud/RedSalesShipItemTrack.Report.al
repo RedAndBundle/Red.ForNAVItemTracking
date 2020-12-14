@@ -37,11 +37,13 @@ Report 56010 "Red Sales Ship Item Track"
                         begin
                             ReportForNav.OnPreDataItem('LotAttrValueMappingFDW', LotAttrValueMappingFDW);
                         end;
+
                     }
                     trigger OnPreDataItem();
                     begin
                         ReportForNav.OnPreDataItem('TrackingSpecification', TrackingSpecification);
                     end;
+
                 }
                 trigger OnPreDataItem();
                 begin
@@ -122,6 +124,7 @@ Report 56010 "Red Sales Ship Item Track"
 
     trigger OnPostReport()
     begin
+
 
 
 

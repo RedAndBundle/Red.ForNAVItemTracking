@@ -40,11 +40,13 @@ Report 56001 "Red Sales Inv Item Track VA"
                         begin
                             ReportForNav.OnPreDataItem('LotAttrValueMappingFDW', LotAttrValueMappingFDW);
                         end;
+
                     }
                     trigger OnPreDataItem();
                     begin
                         ReportForNav.OnPreDataItem('TrackingSpecification', TrackingSpecification);
                     end;
+
                 }
                 trigger OnPreDataItem();
                 begin
@@ -81,6 +83,7 @@ Report 56001 "Red Sales Inv Item Track VA"
                 begin
                     ReportForNav.OnPreDataItem('VATClause', VATClause);
                 end;
+
             }
             trigger OnPreDataItem();
             begin
@@ -152,6 +155,7 @@ Report 56001 "Red Sales Inv Item Track VA"
 
     trigger OnPostReport()
     begin
+
 
 
 
