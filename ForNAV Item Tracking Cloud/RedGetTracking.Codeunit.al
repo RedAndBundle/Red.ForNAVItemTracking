@@ -161,4 +161,20 @@ codeunit 56000 "Red Get Tracking"
         TrackingSpecification.Correction := ItemLedgerEntry.Correction;
         TrackingSpecification.Insert();
     end;
+
+    procedure GetLotAttrValueMappingFDW(var TrackingSpecification: Record "Tracking Specification"; var TempLotAttrValueMappingFDW: Record LotAttrValueMappingFDW)
+    var
+        LotAttrValueMappingFDW: Record LotAttrValueMappingFDW;
+    begin
+        LotAttrValueMappingFDW.SetRange("Item No.", TrackingSpecification."Item No.");
+        LotAttrValueMappingFDW.SetRange("Lot No.", TrackingSpecification."Lot No.");
+        LotAttrValueMappingFDW.SetRange("Variant Code", TrackingSpecification."Variant Code");
+        LotAttrValueMappingFDW.SetRange("Table ID", Database::"Lot No. Information");
+        if LotAttrValueMappingFDW.FindSet() then
+            repeat
+                TempLotAttrValueMappingFDW.Init();
+                TempLotAttrValueMappingFDW := LotAttrValueMappingFDW;
+                TempLotAttrValueMappingFDW.Insert();
+            until LotAttrValueMappingFDW.Next() = 0;
+    end;
 }
