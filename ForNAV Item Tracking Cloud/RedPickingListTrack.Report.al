@@ -58,6 +58,11 @@ Report 56011 "Red Picking List Track"
                             ReportForNav.OnPreDataItem('LotAttrValueMappingFDW', LotAttrValueMappingFDW);
                         end;
 
+                        trigger OnAfterGetRecord();
+                        begin
+                            GetLotAttribute();
+                        end;
+
                     }
                     trigger OnPreDataItem();
                     begin

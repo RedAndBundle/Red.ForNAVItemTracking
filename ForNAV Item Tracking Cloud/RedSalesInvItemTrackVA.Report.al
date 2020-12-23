@@ -62,6 +62,11 @@ Report 56001 "Red Sales Inv Item Track VA"
                                 LotAttrValueMappingFDW.SetRange(Number, 1, TempLotAttrValueMappingFDW.Count);
                             ReportForNav.OnPreDataItem('LotAttrValueMappingFDW', LotAttrValueMappingFDW);
                         end;
+
+                        trigger OnAfterGetRecord();
+                        begin
+                            GetLotAttribute();
+                        end;
                     }
                     trigger OnPreDataItem();
                     begin
@@ -181,15 +186,6 @@ Report 56001 "Red Sales Inv Item Track VA"
 
     trigger OnPostReport()
     begin
-
-
-
-
-
-
-
-
-
     end;
 
     trigger OnPreReport()

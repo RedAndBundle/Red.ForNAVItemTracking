@@ -90,7 +90,8 @@ codeunit 56000 "Red Get Tracking"
                     if ValueEntry.FindSet() then
                         repeat
                             if ItemLedgerEntry.Get(ValueEntry."Item Ledger Entry No.") then
-                                InsertTrackingSpecFromItemLedgerEntry(TrackingSpecification, ItemLedgerEntry);
+                                if ItemLedgerEntry.TrackingExists() then
+                                    InsertTrackingSpecFromItemLedgerEntry(TrackingSpecification, ItemLedgerEntry);
                         until ValueEntry.Next() = 0;
                     exit;
                 end;
@@ -146,8 +147,6 @@ codeunit 56000 "Red Get Tracking"
 
     local procedure InsertTrackingSpecFromItemLedgerEntry(var TrackingSpecification: Record "Tracking Specification"; ItemLedgerEntry: Record "Item Ledger Entry")
     begin
-        if (ItemLedgerEntry."Serial No." = '') and (ItemLedgerEntry."Lot No." = '') then
-            exit;
         TrackingSpecification.Init();
         TrackingSpecification."Entry No." := TrackingSpecification."Entry No." + 1;
         TrackingSpecification."Item No." := ItemLedgerEntry."Item No.";

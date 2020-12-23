@@ -61,6 +61,11 @@ Report 56010 "Red Sales Ship Item Track"
                                 LotAttrValueMappingFDW.SetRange(Number, 1, TempLotAttrValueMappingFDW.Count);
                             ReportForNav.OnPreDataItem('LotAttrValueMappingFDW', LotAttrValueMappingFDW);
                         end;
+
+                        trigger OnAfterGetRecord();
+                        begin
+                            GetLotAttribute();
+                        end;
                     }
                     trigger OnPreDataItem();
                     begin
