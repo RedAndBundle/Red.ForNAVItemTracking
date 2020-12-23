@@ -3,36 +3,6 @@
   <file datatype="xml" source-language="en-US" target-language="en-US" original="ForNAV Item Tracking Cloud">
     <body>
       <group id="body">
-        <trans-unit id="Report 2927022209 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Order Item Tracking Tax</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Order Conf Item Track T - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 2927022209 - Control 2346885236 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Options</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Order Conf Item Track T - Control Options - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 2927022209 - Control 2578066365 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of Copies</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Order Conf Item Track T - Control NoOfCopies - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 2927022209 - Control 2578066365 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the number of copies.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Order Conf Item Track T - Control NoOfCopies - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 2927022209 - Control 1992870141 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Design</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Order Conf Item Track T - Control ForNavOpenDesigner - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 2927022209 - Control 1992870141 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Opens the report in the ForNAV designer.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Order Conf Item Track T - Control ForNavOpenDesigner - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Report 1651628975 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Order Item Tracking</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -93,36 +63,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Red Picking List Track - Control ForNavOpenDesigner - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Report 4206213211 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Purchase Invoice Item Tracking Tax</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Purch Invoice Item Tr T - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 4206213211 - Control 2346885236 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Options</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Purch Invoice Item Tr T - Control Options - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 4206213211 - Control 2578066365 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of Copies</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Purch Invoice Item Tr T - Control NoOfCopies - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 4206213211 - Control 2578066365 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the number of copies.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Purch Invoice Item Tr T - Control NoOfCopies - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 4206213211 - Control 1992870141 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Design</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Purch Invoice Item Tr T - Control ForNavOpenDesigner - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 4206213211 - Control 1992870141 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Opens the report in the ForNAV designer.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Purch Invoice Item Tr T - Control ForNavOpenDesigner - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Report 1186639149 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Purchase Invoice Item Tracking VAT</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -153,36 +93,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Red Purch Invoice Item Tr V - Control ForNavOpenDesigner - Property ToolTip</note>
         </trans-unit>
-        <trans-unit id="Report 80532185 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Purchase Order Item Tracking Tax</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Purch Order Item Tr Tax - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 80532185 - Control 2346885236 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Options</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Purch Order Item Tr Tax - Control Options - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 80532185 - Control 2578066365 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of Copies</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Purch Order Item Tr Tax - Control NoOfCopies - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 80532185 - Control 2578066365 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the number of copies.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Purch Order Item Tr Tax - Control NoOfCopies - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 80532185 - Control 1992870141 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Design</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Purch Order Item Tr Tax - Control ForNavOpenDesigner - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 80532185 - Control 1992870141 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Opens the report in the ForNAV designer.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Purch Order Item Tr Tax - Control ForNavOpenDesigner - Property ToolTip</note>
-        </trans-unit>
         <trans-unit id="Report 765538243 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Purchase Order Item Tracking VAT</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -212,36 +122,6 @@
           <source>Opens the report in the ForNAV designer.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Report Red Purch Order Item Tr VAT - Control ForNavOpenDesigner - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 3899253679 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Invoice Item Tracking Tax</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Sales Inv Item Track Ta - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 3899253679 - Control 2346885236 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Options</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Sales Inv Item Track Ta - Control Options - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 3899253679 - Control 2578066365 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>No. of Copies</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Sales Inv Item Track Ta - Control NoOfCopies - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 3899253679 - Control 2578066365 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the number of copies.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Sales Inv Item Track Ta - Control NoOfCopies - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Report 3899253679 - Control 1992870141 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Design</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Sales Inv Item Track Ta - Control ForNavOpenDesigner - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Report 3899253679 - Control 1992870141 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Opens the report in the ForNAV designer.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Report Red Sales Inv Item Track Ta - Control ForNavOpenDesigner - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Report 3383773489 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Invoice Item Tracking VAT</source>

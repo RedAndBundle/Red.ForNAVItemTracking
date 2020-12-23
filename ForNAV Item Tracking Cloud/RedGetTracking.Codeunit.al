@@ -146,6 +146,8 @@ codeunit 56000 "Red Get Tracking"
 
     local procedure InsertTrackingSpecFromItemLedgerEntry(var TrackingSpecification: Record "Tracking Specification"; ItemLedgerEntry: Record "Item Ledger Entry")
     begin
+        if (ItemLedgerEntry."Serial No." = '') and (ItemLedgerEntry."Lot No." = '') then
+            exit;
         TrackingSpecification.Init();
         TrackingSpecification."Entry No." := TrackingSpecification."Entry No." + 1;
         TrackingSpecification."Item No." := ItemLedgerEntry."Item No.";
