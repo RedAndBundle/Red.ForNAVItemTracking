@@ -252,6 +252,11 @@ Report 56010 "Red Sales Ship Item Track"
     var
         LotAttributeValueFDW: Record LotAttributeValueFDW;
     begin
+        if LotAttrValueMappingFDW.Number = 1 then
+            TempLotAttrValueMappingFDW.FindFirst()
+        else
+            TempLotAttrValueMappingFDW.Next();
+
         LotAttributeValue := '';
         if LotAttributeValueFDW.Get(TempLotAttrValueMappingFDW."Lot Attribute ID", TempLotAttrValueMappingFDW."Lot Attribute Value ID") then begin
             LotAttributeValueFDW.CalcFields("Attribute Name");
