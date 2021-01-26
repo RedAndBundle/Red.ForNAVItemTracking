@@ -8,6 +8,7 @@ codeunit 56000 "Red Get Tracking"
     procedure GetTrackingSpecification(var TrackingSpecification: Record "Tracking Specification"; RecRef: RecordRef)
     begin
         case RecRef.Number of
+            // Add Transfer shpt + Transfer rcpt
             Database::"Sales Line",
             Database::"Purchase Line":
                 begin
@@ -19,6 +20,8 @@ codeunit 56000 "Red Get Tracking"
             Database::"Sales Shipment Line",
             Database::"Purch. Rcpt. Line":
                 GetItemLedgerEntries(TrackingSpecification, RecRef);
+            Database::"Prod. Order Line":
+                GetReservationEntries(TrackingSpecification, RecRef);
         end;
     end;
 
@@ -27,14 +30,30 @@ codeunit 56000 "Red Get Tracking"
         ReservationEntry: Record "Reservation Entry";
         FldRef: FieldRef;
     begin
-        FldRef := RecRef.Field(3); // Document No
-        ReservationEntry.SetRange("Source ID", FldRef.Value);
-        FldRef := RecRef.Field(4); // Line No
-        ReservationEntry.SetRange("Source Ref. No.", FldRef.Value);
-        FldRef := RecRef.Field(6); // No.
-        ReservationEntry.SetRange("Item No.", FldRef.Value);
         ReservationEntry.SetRange("Source Type", RecRef.Number);
         ReservationEntry.SetFilter("Item Tracking", '> %1', ReservationEntry."Item Tracking"::None);
+        case RecRef.Number of
+            Database::"Prod. Order Line":
+                begin
+                    FldRef := RecRef.Field(2); // Document No
+                    ReservationEntry.SetRange("Source ID", FldRef.Value);
+                    FldRef := RecRef.Field(3); // Line No
+                    ReservationEntry.SetRange("Source Ref. No.", FldRef.Value);
+                    FldRef := RecRef.Field(11); // Item No.
+                    ReservationEntry.SetRange("Item No.", FldRef.Value);
+                    FldRef := RecRef.Field(1); // Status
+                    ReservationEntry.SetRange("Source Subtype", FldRef.Value);
+                end;
+            else
+                FldRef := RecRef.Field(3); // Document No
+                ReservationEntry.SetRange("Source ID", FldRef.Value);
+                FldRef := RecRef.Field(4); // Line No
+                ReservationEntry.SetRange("Source Prod. Order Line", FldRef.Value);
+                FldRef := RecRef.Field(6); // No.
+                ReservationEntry.SetRange("Item No.", FldRef.Value);
+                FldRef := RecRef.Field(1); // Doc Type
+                ReservationEntry.SetRange("Source Subtype", FldRef.Value);
+        end;
         if ReservationEntry.FindSet() then
             repeat
                 InsertTrackingSpecFromReservationEntry(TrackingSpecification, ReservationEntry);
