@@ -5,10 +5,20 @@ codeunit 56000 "Red Get Tracking"
     // Unauthorized reverse engineering, distribution or copying of this file, parts hereof, or derived work, via any medium is strictly prohibited without written permission from Red and Bundle.
     // This source code is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 
-    procedure GetTrackingSpecification(var TrackingSpecification: Record "Tracking Specification"; RecRef: RecordRef)
+    procedure GetTrackingSpecification(var TrackingSpecification: Record "Tracking Specification"; Rec: Variant)
+    var
+        RecRef: RecordRef;
     begin
+        case true of
+            Rec.IsRecord:
+                RecRef.GetTable(Rec);
+            rec.IsRecordRef:
+                RecRef := Rec;
+            else
+                exit;
+        end;
+
         case RecRef.Number of
-            // Add Transfer shpt + Transfer rcpt
             Database::"Sales Line",
             Database::"Purchase Line":
                 begin
@@ -16,13 +26,95 @@ codeunit 56000 "Red Get Tracking"
                     GetItemLedgerEntries(TrackingSpecification, RecRef);
                 end;
             Database::"Sales Invoice Line",
-            Database::"Purch. Inv. Line",
+            Database::"Purch. Inv. Line":
+                GetFromInvoiceDocument(TrackingSpecification, RecRef);
             Database::"Sales Shipment Line",
-            Database::"Purch. Rcpt. Line":
+            Database::"Purch. Rcpt. Line",
+            Database::"Transfer Shipment Line",
+            Database::"Transfer Receipt Line":
                 GetItemLedgerEntries(TrackingSpecification, RecRef);
             Database::"Prod. Order Line":
                 GetReservationEntries(TrackingSpecification, RecRef);
+            Database::"Posted Whse. Receipt Line",
+            Database::"Posted Whse. Shipment Line":
+                GetFromWarehouseDocument(TrackingSpecification, RecRef);
         end;
+    end;
+
+    local procedure GetFromInvoiceDocument(var TrackingSpecification: Record "Tracking Specification"; RecRef: RecordRef)
+    var
+        ItemLedgerEntry: Record "Item Ledger Entry";
+        ValueEntry: Record "Value Entry";
+        FldRef: FieldRef;
+    begin
+        ValueEntry.SetCurrentKey("Document No.");
+        FldRef := RecRef.Field(3); // Document No
+        ValueEntry.SetRange("Document No.", FldRef.Value);
+        FldRef := RecRef.Field(4); // Line No
+        ValueEntry.SetRange("Document Line No.", FldRef.Value);
+
+        case RecRef.Number of
+            Database::"Sales Invoice Line":
+                ValueEntry.SetRange("Document Type", ValueEntry."Document Type"::"Sales Invoice");
+            Database::"Purch. Inv. Line":
+                ValueEntry.SetRange("Document Type", ValueEntry."Document Type"::"Purchase Invoice");
+        end;
+
+        if ValueEntry.FindSet() then
+            repeat
+                if ItemLedgerEntry.Get(ValueEntry."Item Ledger Entry No.") then
+                    if ItemLedgerEntry.TrackingExists() then
+                        InsertTrackingSpecFromItemLedgerEntry(TrackingSpecification, ItemLedgerEntry);
+            until ValueEntry.Next() = 0;
+    end;
+
+    local procedure GetFromWarehouseDocument(var TrackingSpecification: Record "Tracking Specification"; RecRef: RecordRef)
+    var
+        PostedWhseReceiptLine: Record "Posted Whse. Receipt Line";
+        PostedWhseShipmentLine: Record "Posted Whse. Shipment Line";
+        PurchRcptLine: Record "Purch. Rcpt. Line";
+        TransferReceiptLine: Record "Transfer Receipt Line";
+        TransferShipmentLine: Record "Transfer Shipment Line";
+        SalesShipmentLine: Record "Sales Shipment Line";
+        SourceDocRecRef: RecordRef;
+    begin
+        case RecRef.Number of
+            Database::"Posted Whse. Receipt Line":
+                begin
+                    RecRef.SetTable(PostedWhseReceiptLine);
+                    case PostedWhseReceiptLine."Posted Source Document" of
+                        PostedWhseReceiptLine."Posted Source Document"::"Posted Receipt":
+                            begin
+                                PurchRcptLine.Get(PostedWhseReceiptLine."Posted Source No.", PostedWhseReceiptLine."Line No.");
+                                SourceDocRecRef.GetTable(PurchRcptLine);
+                            end;
+                        PostedWhseReceiptLine."Posted Source Document"::"Posted Transfer Receipt":
+                            begin
+                                TransferReceiptLine.Get(PostedWhseReceiptLine."Posted Source No.", PostedWhseReceiptLine."Line No.");
+                                SourceDocRecRef.GetTable(TransferReceiptLine);
+                            end;
+                    end;
+                end;
+            Database::"Posted Whse. Shipment Line":
+                begin
+                    RecRef.SetTable(PostedWhseShipmentLine);
+                    case PostedWhseShipmentLine."Posted Source Document" of
+                        PostedWhseShipmentLine."Posted Source Document"::"Posted Shipment":
+                            begin
+                                SalesShipmentLine.Get(PostedWhseShipmentLine."Posted Source No.", PostedWhseShipmentLine."Line No.");
+                                SourceDocRecRef.GetTable(SalesShipmentLine);
+                            end;
+                        PostedWhseShipmentLine."Posted Source Document"::"Posted Transfer Shipment":
+                            begin
+                                TransferShipmentLine.Get(PostedWhseShipmentLine."Posted Source No.", PostedWhseShipmentLine."Line No.");
+                                SourceDocRecRef.GetTable(TransferShipmentLine);
+                            end;
+                    end;
+                end;
+            else
+                exit;
+        end;
+        GetTrackingSpecification(TrackingSpecification, SourceDocRecRef);
     end;
 
     local procedure GetReservationEntries(var TrackingSpecification: Record "Tracking Specification"; RecRef: RecordRef)
@@ -62,81 +154,85 @@ codeunit 56000 "Red Get Tracking"
 
     local procedure GetItemLedgerEntries(var TrackingSpecification: Record "Tracking Specification"; RecRef: RecordRef)
     var
-        ItemLedgerEntry: Record "Item Ledger Entry";
-        SalesShipmentLine: Record "Sales Shipment Line";
-        PurchRcptLine: Record "Purch. Rcpt. Line";
-        ValueEntry: Record "Value Entry";
         ShippingRef: RecordRef;
+    begin
+        if not GetShippingRef(ShippingRef, RecRef) then
+            exit;
+        GetItemLedgerEntriesFromShippingRef(TrackingSpecification, ShippingRef);
+    end;
+
+    local procedure GetShippingRef(var ShippingRef: RecordRef; RecRef: RecordRef): Boolean;
+    var
         FldRef: FieldRef;
         ShippingFldRef: FieldRef;
     begin
         case RecRef.Number of
             Database::"Sales Line",
-            Database::"Sales Invoice Line":
-                ShippingRef.GetTable(SalesShipmentLine);
-            Database::"Purchase Line",
-            Database::"Purch. Inv. Line":
-                ShippingRef.GetTable(PurchRcptLine);
-        end;
-
-        case RecRef.Number of
-            Database::"Sales Line",
             Database::"Purchase Line":
                 begin
+                    case RecRef.Number of
+                        Database::"Sales Line":
+                            ShippingRef.Open(Database::"Sales Shipment Line");
+                        Database::"Purchase Line":
+                            ShippingRef.Open(Database::"Purch. Rcpt. Line");
+                    end;
                     ShippingFldRef := ShippingRef.Field(65);
                     FldRef := RecRef.Field(3); // Document No
                     ShippingFldRef.SetRange(FldRef.Value);
                     ShippingFldRef := ShippingRef.Field(66);
                     FldRef := RecRef.Field(4); // Line No
                     ShippingFldRef.SetRange(FldRef.Value);
-                    if not ShippingRef.FindSet() then
-                        exit;
-                end;
-            Database::"Sales Invoice Line",
-            Database::"Purch. Inv. Line":
-                begin
-                    ValueEntry.SetCurrentKey("Document No.");
-                    FldRef := RecRef.Field(3); // Document No
-                    ValueEntry.SetRange("Document No.", FldRef.Value);
-                    FldRef := RecRef.Field(4); // Line No
-                    ValueEntry.SetRange("Document Line No.", FldRef.Value);
-                    case RecRef.Number of
-                        Database::"Sales Invoice Line":
-                            ValueEntry.SetRange("Document Type", ValueEntry."Document Type"::"Sales Invoice");
-                        Database::"Purch. Inv. Line":
-                            ValueEntry.SetRange("Document Type", ValueEntry."Document Type"::"Purchase Invoice");
-                    end;
-                    if ValueEntry.FindSet() then
-                        repeat
-                            if ItemLedgerEntry.Get(ValueEntry."Item Ledger Entry No.") then
-                                if ItemLedgerEntry.TrackingExists() then
-                                    InsertTrackingSpecFromItemLedgerEntry(TrackingSpecification, ItemLedgerEntry);
-                        until ValueEntry.Next() = 0;
-                    exit;
                 end;
             Database::"Sales Shipment Line",
-            Database::"Purch. Rcpt. Line":
+            Database::"Purch. Rcpt. Line",
+            Database::"Transfer Shipment Line",
+            Database::"Transfer Receipt Line":
                 ShippingRef := RecRef;
             else
-                exit;
+                exit(false);
         end;
+        exit(not ShippingRef.IsEmpty());
+    end;
 
+    local procedure GetItemLedgerEntriesFromShippingRef(var TrackingSpecification: Record "Tracking Specification"; ShippingRef: RecordRef)
+    var
+        ItemLedgerEntry: Record "Item Ledger Entry";
+        FldRef: FieldRef;
+    begin
         ShippingRef.SetRecFilter();
         if ShippingRef.FindSet() then
             repeat
-                FldRef := ShippingRef.Field(3); // Document No
-                ItemLedgerEntry.SetRange("Document No.", FldRef.Value);
-                FldRef := ShippingRef.Field(4); // Line No
-                ItemLedgerEntry.SetRange("Document Line No.", FldRef.Value);
-                FldRef := ShippingRef.Field(6); // No
-                ItemLedgerEntry.SetRange("Item No.", FldRef.Value);
-                case RecRef.Number of
-                    Database::"Sales Line",
+                case ShippingRef.Number of
+                    Database::"Sales Shipment Line",
+                    Database::"Purch. Rcpt. Line":
+                        begin
+                            FldRef := ShippingRef.Field(3); // Document No
+                            ItemLedgerEntry.SetRange("Document No.", FldRef.Value);
+                            FldRef := ShippingRef.Field(4); // Line No
+                            ItemLedgerEntry.SetRange("Document Line No.", FldRef.Value);
+                            FldRef := ShippingRef.Field(6); // No
+                            ItemLedgerEntry.SetRange("Item No.", FldRef.Value);
+                        end;
+                    Database::"Transfer Shipment Line",
+                    Database::"Transfer Receipt Line":
+                        begin
+                            FldRef := ShippingRef.Field(1); // Document No
+                            ItemLedgerEntry.SetRange("Document No.", FldRef.Value);
+                            FldRef := ShippingRef.Field(2); // Line No
+                            ItemLedgerEntry.SetRange("Document Line No.", FldRef.Value);
+                            FldRef := ShippingRef.Field(3); // Item No
+                            ItemLedgerEntry.SetRange("Item No.", FldRef.Value);
+                        end;
+                end;
+                case ShippingRef.Number of
                     Database::"Sales Shipment Line":
                         ItemLedgerEntry.SetRange("Document Type", ItemLedgerEntry."Document Type"::"Sales Shipment");
-                    Database::"Purchase Line",
                     Database::"Purch. Rcpt. Line":
                         ItemLedgerEntry.SetRange("Document Type", ItemLedgerEntry."Document Type"::"Purchase Receipt");
+                    Database::"Transfer Shipment Line":
+                        ItemLedgerEntry.SetRange("Document Type", ItemLedgerEntry."Document Type"::"Transfer Shipment");
+                    Database::"Transfer Receipt Line":
+                        ItemLedgerEntry.SetRange("Document Type", ItemLedgerEntry."Document Type"::"Transfer Receipt");
                 end;
                 ItemLedgerEntry.SetFilter("Item Tracking", '>%1', ItemLedgerEntry."Item Tracking"::None);
                 if ItemLedgerEntry.FindSet() then
