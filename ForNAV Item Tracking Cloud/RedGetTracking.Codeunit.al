@@ -85,12 +85,12 @@ codeunit 56000 "Red Get Tracking"
                     case PostedWhseReceiptLine."Posted Source Document" of
                         PostedWhseReceiptLine."Posted Source Document"::"Posted Receipt":
                             begin
-                                PurchRcptLine.Get(PostedWhseReceiptLine."Posted Source No.", PostedWhseReceiptLine."Line No.");
+                                PurchRcptLine.Get(PostedWhseReceiptLine."Posted Source No.", PostedWhseReceiptLine."Source Line No.");
                                 SourceDocRecRef.GetTable(PurchRcptLine);
                             end;
                         PostedWhseReceiptLine."Posted Source Document"::"Posted Transfer Receipt":
                             begin
-                                TransferReceiptLine.Get(PostedWhseReceiptLine."Posted Source No.", PostedWhseReceiptLine."Line No.");
+                                TransferReceiptLine.Get(PostedWhseReceiptLine."Posted Source No.", PostedWhseReceiptLine."Source Line No.");
                                 SourceDocRecRef.GetTable(TransferReceiptLine);
                             end;
                     end;
@@ -101,12 +101,12 @@ codeunit 56000 "Red Get Tracking"
                     case PostedWhseShipmentLine."Posted Source Document" of
                         PostedWhseShipmentLine."Posted Source Document"::"Posted Shipment":
                             begin
-                                SalesShipmentLine.Get(PostedWhseShipmentLine."Posted Source No.", PostedWhseShipmentLine."Line No.");
+                                SalesShipmentLine.Get(PostedWhseShipmentLine."Posted Source No.", PostedWhseShipmentLine."Source Line No.");
                                 SourceDocRecRef.GetTable(SalesShipmentLine);
                             end;
                         PostedWhseShipmentLine."Posted Source Document"::"Posted Transfer Shipment":
                             begin
-                                TransferShipmentLine.Get(PostedWhseShipmentLine."Posted Source No.", PostedWhseShipmentLine."Line No.");
+                                TransferShipmentLine.Get(PostedWhseShipmentLine."Posted Source No.", PostedWhseShipmentLine."Source Line No.");
                                 SourceDocRecRef.GetTable(TransferShipmentLine);
                             end;
                     end;
